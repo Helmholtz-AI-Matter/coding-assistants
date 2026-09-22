@@ -47,8 +47,16 @@ jobs:
             - name: Extract release title from slides.tex
               id: title
               run: |
-                    echo "SUBTITLE=$(grep -oE '\\\\subtitle\{[^}]*\}' vibe_coding/slides.tex | head -1 | sed 's/\\\\subtitle{\(.*\)}/\1/')" >> "$GITHUB_OUTPUT"
-                    echo "DATE=$(grep -oE '\\\\date\{[^}]*\}' vibe_coding/slides.tex | head -1 | sed 's/\\\\date{\(.*\)}/\1/')" >> "$GITHUB_OUTPUT"
+                    SUBTITLE=$(grep -oE '\\subtitle\{[^}]*\}' vibe_coding/slides.tex | head -1 | sed 's/\\subtitle{\(.*\)}/\1/')
+                    DATE=$(grep -oE '\\date\{[^}]*\}' vibe_coding/slides.tex | head -1 | sed 's/\\date{\(.*\)}/\1/')
+                    echo "Extracted SUBTITLE: [$SUBTITLE]"
+                    echo "Extracted DATE: [$DATE]"
+                    if [ -z "$SUBTITLE" ] || [ -z "$DATE" ]; then
+                      echo "::error::Failed to extract subtitle or date from vibe_coding/slides.tex"
+                      exit 1
+                    fi
+                    echo "SUBTITLE=$SUBTITLE" >> "$GITHUB_OUTPUT"
+                    echo "DATE=$DATE" >> "$GITHUB_OUTPUT"
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
