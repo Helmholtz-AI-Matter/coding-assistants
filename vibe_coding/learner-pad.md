@@ -15,6 +15,11 @@ back to [main pad](https://pad.gwdg.de/kOT4kzzcTRyUNxT8OO7-wg)
 | Location | Büttner-Raum 1 (Heyne-Haus) |
 | Speaker  | Dr. Till Korten             |
 
+An introduction to Agentic Coding using OpenCode.
+
+https://github.com/Helmholtz-AI-Matter/coding-assistants
+https://zenodo.org/records/22901775
+
 ## Preparation
 
 ### Install Opencode
@@ -128,3 +133,10 @@ Good projects are small, self-contained, and have a clear goal — so that you c
 * A simple data analysis task, a small simulation, or a basic machine learning model
 
 Maybe you have a project idea that you wanted to try out but never got around to it. This is a good opportunity to do so.
+
+## Post-Session Survey
+
+Please fill out the post-session survey (scan the QR code from the slides or click the link):
+
+https://events.hifis.net/event/3249/surveys/1255?token=c2c06f8a-21f3-4723-8ad8-4e51bb304077
+
