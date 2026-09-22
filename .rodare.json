@@ -13,19 +13,11 @@
     }
   ],
   "publication_date": "2026-09-22",
-  "version": "",
   "license": "CC-BY-4.0",
   "keywords": [
     "coding assistants",
     "coding agents",
     "workshop",
     "education"
-  ],
-  "related_identifiers": [
-    {
-      "identifier": "https://github.com/Helmholtz-AI-Matter/coding-assistants",
-      "relation": "isSupplementTo",
-      "scheme": "url"
-    }
   ]
 }
