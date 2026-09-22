@@ -1,6 +1,7 @@
 name: Build and Release LaTeX
 
 on:
+    pull_request:
     release:
         types: [published]
 
@@ -8,8 +9,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
         container: texlive/texlive:latest
-        permissions:
-            contents: write
+        outputs:
+            subtitle: ${{ steps.title.outputs.SUBTITLE }}
+            date: ${{ steps.title.outputs.DATE }}
 
         steps:
             - uses: actions/checkout@v3
@@ -28,8 +30,38 @@ jobs:
                     echo "SUBTITLE=$SUBTITLE" >> "$GITHUB_OUTPUT"
                     echo "DATE=$DATE" >> "$GITHUB_OUTPUT"
 
-            - run: cd coding_assistants && make
-            - run: cd vibe_coding && make
+            - name: Build coding_assistants slides
+              run: cd coding_assistants && make
+            - name: Build vibe_coding slides
+              run: cd vibe_coding && make
+
+            - name: Upload coding_assistants PDF artifact
+              uses: actions/upload-artifact@v4
+              with:
+                    name: coding_assistants
+                    path: coding_assistants/slides.pdf
+            - name: Upload vibe_coding PDF artifact
+              uses: actions/upload-artifact@v4
+              with:
+                    name: vibe_coding
+                    path: vibe_coding/slides.pdf
+
+    release:
+        needs: build
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        if: github.event_name == 'release'
+
+        steps:
+            - uses: actions/download-artifact@v4
+              with:
+                    name: coding_assistants
+                    path: coding_assistants
+            - uses: actions/download-artifact@v4
+              with:
+                    name: vibe_coding
+                    path: vibe_coding
 
             - name: Update release title
               uses: actions/github-script@v7
@@ -41,7 +73,7 @@ jobs:
                       repo: context.repo.repo,
                       tag: context.payload.release.tag_name,
                     });
-                    const name = '${{ steps.title.outputs.SUBTITLE }}. ${{ steps.title.outputs.DATE }}';
+                    const name = '${{ needs.build.outputs.subtitle }}. ${{ needs.build.outputs.date }}';
                     await github.rest.repos.updateRelease({
                       owner: context.repo.owner,
                       repo: context.repo.repo,
