@@ -68,10 +68,10 @@ tabsize=2
 \newcommand{\xmark}{\ding{55}} % xmark
 \newcommand{\tool}[1]{\texttt{#1}}
 
-\title{Vibe Coding: A Useful Science Tool} % Change Me
-\subtitle{AI Tools for Scientists} % Change Me
-\author{\href{mailto:t.korten@hzdr.de}{Till Korten, Philip Müller}} % Change Me
-\date{May 22, 2026} % Change Me
+\title[Vibe Coding]{Vibe Coding: A Useful Science Tool} % Change Me
+\subtitle{AI-supported Research Software Engineering} % Change Me
+\author{\href{mailto:t.korten@hzdr.de}{Till Korten}} % Change Me
+\date{Sep 23, 2026} % Change Me
 \institute{Helmholtz-Zentrum Dresden-Rossendorf}
 \titlegraphic{}
 
@@ -220,15 +220,20 @@ tabsize=2
 
 \begin{frame}
   {Best Practices}
+  \vspace{-1em}
   \begin{columns}
     \begin{column}{0.3\textwidth}
       \includegraphics[width=\textwidth]{images/human_instructing_agent_AI_generated.png}
     \end{column}
     \begin{column}{0.7\textwidth}
-      \Large
+      \large
       \begin{itemize}
         \item Specify the desired end result, not how to implement it.
         \item Plan the prompt well (use a chat model).
+              \begin{itemize}
+                \item Ask the model to suggest several approaches and discuss pros and cons.
+                \item This is a great way to learn and improve your own coding skills.
+              \end{itemize}
         \item Use structured tasks and checklists
         \item Understand, review and test all generated code.
         \item Iterate and refine pull requests.
@@ -298,7 +303,7 @@ tabsize=2
 \end{frame}
 
 \begin{frame}
-  {Enable Agents to Run Code and Tests}
+  {Enable Agents to Safely Run Code and Tests}
 
   \begin{columns}
     \begin{column}{0.3\textwidth}
@@ -308,7 +313,7 @@ tabsize=2
       \Large
       \begin{itemize}
         \item Run the agent in an environment where it can execute code and tests
-        \item The environment should be safe to execute commands (e.g. a virtual machine or CI runner)
+        \item The environment should be safe to execute commands (e.g. a podman container, virtual machine or CI runner)
         \item All dependencies to run code and tests should be installed \textrightarrow~on GitHub use \tool{copilot-setup-steps.yml}
         \item Internet access should be restricted to known trustworthy sites to prevent prompt injections
       \end{itemize}
@@ -389,11 +394,12 @@ tabsize=2
   {Summary}
 
   \begin{columns}
-    \begin{column}{0.3\textwidth}
+    \begin{column}{0.35\textwidth}
       \includegraphics[width=\textwidth]{images/QR-code_github_repo.png}
-      \url{https://github.com/thawn/coding-assistants} CC-BY 4.0
+      \url{https://github.com/Helmholtz-AI-Matter/coding-assistants}
+      \url{https.doi.org/} CC-BY 4.0
     \end{column}
-    \begin{column}{0.7\textwidth}
+    \begin{column}{0.65\textwidth}
       \Large
       \begin{itemize}
         \item Coding agents accelerate software development
@@ -412,7 +418,6 @@ tabsize=2
     \Large
     \item Use Opencode or GitHub Copilot for a small project. Examples:
           \begin{itemize}
-            \item Implement the research proposal or visualization example from session two
             \item Write a script to automate a tedious task in your daily work
             \item Implement a new feature in an existing codebase
             \item Fix a bug
