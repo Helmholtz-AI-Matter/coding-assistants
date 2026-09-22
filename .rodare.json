@@ -1,0 +1,31 @@
+{
+  "title": "Coding Assistants",
+  "description": "Workshop materials on setting up and using coding assistants with an IDE like VS Code, and on using agentic AI tools like OpenCode.",
+  "upload_type": "lesson",
+  "creators": [
+    {
+      "name": "Korten, Till",
+      "orcid": "0000-0002-2315-9247"
+    },
+    {
+      "name": "Müller, Philip",
+      "orcid": "0009-0005-5986-5628"
+    }
+  ],
+  "publication_date": "2026-09-22",
+  "version": "",
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "coding assistants",
+    "coding agents",
+    "workshop",
+    "education"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Helmholtz-AI-Matter/coding-assistants",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
