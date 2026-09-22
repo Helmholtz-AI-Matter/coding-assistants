@@ -1,49 +1,19 @@
 name: Build and Release LaTeX
 
 on:
-    push:
-        tags:
-            - '*'
+    release:
+        types: [published]
 
 jobs:
     build:
         runs-on: ubuntu-latest
         container: texlive/texlive:latest
-        steps:
-            - uses: actions/checkout@v3
-
-            - run: cd coding_assistants && make
-            - name: Upload coding_assistants PDF artifact
-              uses: actions/upload-artifact@v4
-              with:
-                    name: coding_assistants
-                    path: coding_assistants/slides.pdf
-
-            - run: cd vibe_coding && make
-            - name: Upload vibe_coding PDF artifact
-              uses: actions/upload-artifact@v4
-              with:
-                    name: vibe_coding
-                    path: vibe_coding/slides.pdf
-
-    release:
-        needs: build
-        runs-on: ubuntu-latest
         permissions:
             contents: write
-            packages: write
 
         steps:
             - uses: actions/checkout@v3
 
-            - uses: actions/download-artifact@v4
-              with:
-                    name: coding_assistants
-                    path: coding_assistants
-            - uses: actions/download-artifact@v4
-              with:
-                    name: vibe_coding
-                    path: vibe_coding
             - name: Extract release title from slides.tex
               id: title
               run: |
@@ -57,31 +27,45 @@ jobs:
                     fi
                     echo "SUBTITLE=$SUBTITLE" >> "$GITHUB_OUTPUT"
                     echo "DATE=$DATE" >> "$GITHUB_OUTPUT"
-            - name: Create Release
-              id: create_release
-              uses: actions/create-release@v1
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+
+            - run: cd coding_assistants && make
+            - run: cd vibe_coding && make
+
+            - name: Update release title
+              uses: actions/github-script@v7
               with:
-                tag_name: ${{ github.ref }}
-                release_name: "${{ steps.title.outputs.SUBTITLE }}. ${{ steps.title.outputs.DATE }}"
-                draft: false
-                prerelease: false
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    const { data: release } = await github.rest.repos.getReleaseByTag({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      tag: context.payload.release.tag_name,
+                    });
+                    const name = '${{ steps.title.outputs.SUBTITLE }}. ${{ steps.title.outputs.DATE }}';
+                    await github.rest.repos.updateRelease({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      release_id: release.id,
+                      name: name,
+                    });
+                    console.log(`Release title updated to: ${name}`);
+
             - name: Upload coding_assistants PDF as Release Asset
               uses: actions/upload-release-asset@v1
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                upload_url: ${{ steps.create_release.outputs.upload_url }}
+                upload_url: ${{ github.event.release.upload_url }}
                 asset_path: ./coding_assistants/slides.pdf
                 asset_name: coding_assistants.pdf
                 asset_content_type: application/pdf
+
             - name: Upload vibe_coding PDF as Release Asset
               uses: actions/upload-release-asset@v1
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                upload_url: ${{ steps.create_release.outputs.upload_url }}
+                upload_url: ${{ github.event.release.upload_url }}
                 asset_path: ./vibe_coding/slides.pdf
                 asset_name: vibe_coding.pdf
                 asset_content_type: application/pdf
