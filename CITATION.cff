@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this material, please cite it as below."
+title: "Coding Assistants"
+abstract: "Workshop materials on setting up and using coding assistants with an IDE like VS Code, and on using agentic AI tools like OpenCode."
+authors:
+  - family-names: Korten
+    given-names: Till
+    orcid: "https://orcid.org/0000-0002-2315-9247"
+    email: "webmaster@korten.at"
+  - family-names: Müller
+    given-names: Philip
+    orcid: "https://orcid.org/0009-0005-5986-5628"
+date-released: "2026-09-22"
+version: ""
+license: "CC-BY-4.0"
+url: "https://github.com/Helmholtz-AI-Matter/coding-assistants"
+keywords:
+  - coding assistants
+  - coding agents
+  - workshop
+  - education
